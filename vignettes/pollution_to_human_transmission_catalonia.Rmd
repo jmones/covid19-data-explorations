@@ -1,6 +1,18 @@
-# Exploration to replicate an italian paper on pollution to human transmission of COVID-19
+---
+title: "Pollution to human transmission of COVID-19 in Catalonia"
+author: "Authors"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pollution-human-transmission-catalonia}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
 
 **THIS IS WORK IN PROGRESS**
+
+
+Exploration to replicate an italian paper on pollution to human transmission of COVID-19
 
 ## Original paper
 

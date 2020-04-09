@@ -38,5 +38,6 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# Packrat libraries
+# Packrat libraries and sources
 packrat/lib*/
+packrat/src/
