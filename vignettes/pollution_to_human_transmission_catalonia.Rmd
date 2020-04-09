@@ -21,8 +21,8 @@ https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3567841
 
 ## Required datasets
 
-| Dataset | Source |
-|---------|--------|
-| Number of infected per city | [Tests of COVID-19 in Catalonia](../data-raw/covid_tests_catalonia/README.md) | |
-| Meteorological indicators: average, moisture, wind, days of rain and fog |  |
-| density | |
+| Dataset | Description | Source |
+|---------|--------|------|
+| covid_tests_catalonia | Number of infected per city | Tests of COVID-19 in Catalonia, Government of Catalonia | 
+| | Meteorological indicators: average, moisture, wind, days of rain and fog | |
+| | density | |
