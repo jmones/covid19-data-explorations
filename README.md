@@ -4,7 +4,7 @@ This repository contains random explorations on COVID-19 data. Nothing useful fo
 
 ## Explorations
 
-[Exploration to replicate an italian paper on pollution to human transmission of COVID-19](Polution_to_human_transmission_catalonia)
+[Exploration to replicate an italian paper on pollution to human transmission of COVID-19](pollution_to_human_transmission_catalonia/README.md)
 
 ## Data
 
