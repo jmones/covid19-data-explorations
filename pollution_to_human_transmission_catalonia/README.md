@@ -11,6 +11,6 @@ https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3567841
 
 | Dataset | Source |
 |---------|--------|
-| Number of infected per city | https://analisi.transparenciacatalunya.cat/ca/Salut/Registre-de-test-de-COVID-19-realitzats-a-Cataluny/xuwf-dxjd   | |
+| Number of infected per city | [Tests of COVID-19 in Catalonia](../data-raw/covid_tests_catalonia/README.md) | |
 | Meteorological indicators: average, moisture, wind, days of rain and fog |  |
 | density | |
