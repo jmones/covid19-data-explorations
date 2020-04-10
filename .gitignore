@@ -41,3 +41,4 @@ vignettes/*.pdf
 # Packrat libraries and sources
 packrat/lib*/
 packrat/src/
+.Rproj.user
