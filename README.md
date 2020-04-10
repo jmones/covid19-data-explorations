@@ -10,6 +10,3 @@ This repository contains random explorations on COVID-19 data. Nothing useful fo
 
 [Raw data](data-raw/README.md)
 
-## Changes
-
-Pep
