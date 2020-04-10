@@ -11,6 +11,9 @@ vignette: >
 
 **THIS IS WORK IN PROGRESS**
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
 
 Exploration to replicate an italian paper on pollution to human transmission of COVID-19
 
@@ -26,3 +29,60 @@ https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3567841
 | covid_tests_catalonia | Number of infected per city | Tests of COVID-19 in Catalonia, Government of Catalonia | 
 | | Meteorological indicators: average, moisture, wind, days of rain and fog | |
 | | density | |
+
+
+## Analysis
+
+```{r munge}
+library(tidyverse)
+library(stargazer)
+library(ggeffects)
+
+load("../data/covid_tests_catalonia.rda")
+
+covid_tests_catalonia <- covid_tests_catalonia %>% 
+  mutate(RegioSanitariaDescripcio = as_factor(RegioSanitariaDescripcio)) %>% 
+  mutate(RegioSanitariaDescripcio = relevel(RegioSanitariaDescripcio, ref="Barcelona"))
+```
+
+
+```{r mod1, results='asis'}
+mod1 <- lm(ResultatCovidCodi~SexeDescripcio, data=covid_tests_catalonia)
+mod2 <- update(mod1,.~. + RegioSanitariaDescripcio)
+
+stargazer(mod1,mod2,
+          type="html",
+          no.space = TRUE,
+          header=FALSE)
+
+```
+
+```{r sex, fig.width=6}
+p <- ggpredict(mod2,terms = "SexeDescripcio") %>% as_tibble()
+
+ggplot(p, aes(x,predicted)) +
+  geom_point() +
+  geom_errorbar(aes(ymin=conf.low, ymax=conf.high),
+                width=0.05) +
+  theme_minimal() +
+  labs(x="",
+       y="Probabilitat de positiu de COVID19") +
+  ylim(0.41,0.49)
+```
+
+
+
+```{r regio, fig.width=6}
+p <- ggpredict(mod2,terms = "RegioSanitariaDescripcio") %>% as_tibble()
+
+ggplot(p, aes(predicted,reorder(x,desc(predicted)))) +
+  geom_point() +
+  geom_errorbarh(aes(xmin=conf.low, xmax=conf.high),
+                height=0.05) +
+  theme_minimal() +
+  labs(y="",
+       x="Probabilitat de positiu de COVID19") +
+  theme(axis.text.y = element_text(hjust=0))
+
+```
+
