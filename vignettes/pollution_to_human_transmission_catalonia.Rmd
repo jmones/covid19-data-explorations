@@ -4,10 +4,24 @@ author: "Authors"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{pollution-human-transmission-catalonia}
+  %\VignetteIndexEntry{covid19dataexplorations}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(covid19dataexplorations)
+```
+
+
+
 
 **THIS IS WORK IN PROGRESS**
 
