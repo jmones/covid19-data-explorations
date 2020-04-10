@@ -16,9 +16,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(covid19dataexplorations)
-```
 
 
 
@@ -55,14 +52,14 @@ library(ggeffects)
 load("../data/covid_tests_catalonia.rda")
 
 covid_tests_catalonia <- covid_tests_catalonia %>% 
-  mutate(RegioSanitariaDescripcio = as_factor(RegioSanitariaDescripcio)) %>% 
-  mutate(RegioSanitariaDescripcio = relevel(RegioSanitariaDescripcio, ref="Barcelona"))
+  mutate(MunicipiDescripcio = as_factor(MunicipiDescripcio)) %>% 
+  mutate(MunicipiDescripcio = relevel(MunicipiDescripcio, ref="Barcelona"))
 ```
 
 
 ```{r mod1, results='asis'}
 mod1 <- lm(ResultatCovidCodi~SexeDescripcio, data=covid_tests_catalonia)
-mod2 <- update(mod1,.~. + RegioSanitariaDescripcio)
+mod2 <- update(mod1,.~. + MunicipiDescripcio)
 
 stargazer(mod1,mod2,
           type="html",
@@ -87,7 +84,7 @@ ggplot(p, aes(x,predicted)) +
 
 
 ```{r regio, fig.width=6}
-p <- ggpredict(mod2,terms = "RegioSanitariaDescripcio") %>% as_tibble()
+p <- ggpredict(mod2,terms = "MunicipiDescripcio") %>% as_tibble()
 
 ggplot(p, aes(predicted,reorder(x,desc(predicted)))) +
   geom_point() +
