@@ -1,12 +1,11 @@
 # Data from metereological automatic stations (XEMA) in Catalonia
 #
 # Data retrieved from the open data portal of the Catalan Government
+# https://analisi.transparenciacatalunya.cat/Medi-Ambient/Dades-meteorol-giques-de-la-XEMA/nzvn-apee
 # https://analisi.transparenciacatalunya.cat/Medi-Ambient/Metadades-variables-meteorol-giques/4fb2-n3yi
-# https://analisi.transparenciacatalunya.cat/es/Medi-Ambient/Metadades-estacions-meteorol-giques-autom-tiques/yqwd-vj5e
+# https://analisi.transparenciacatalunya.cat/Medi-Ambient/Metadades-estacions-meteorol-giques-autom-tiques/yqwd-vj5e
 #
-# License
-# From http://governobert.gencat.cat/ca/dades_obertes/dades-obertes-covid-19/:
-# Avís legal: D’acord amb l’article 17.1 de la Llei 19/2014, la ©Generalitat de Catalunya permet la reutilització dels continguts i de les dades sempre que se'n citi la font i la data d'actualització i que no es desnaturalitzi la informació (article 8 de la Llei 37/2007) i també que no es contradigui amb una llicència específica.
+# License https://www.meteo.cat/wpweb/avis-legal/
 
 
 library(dplyr)
