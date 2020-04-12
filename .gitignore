@@ -42,3 +42,6 @@ vignettes/*.pdf
 packrat/lib*/
 packrat/src/
 .Rproj.user
+
+# drake
+.drake/

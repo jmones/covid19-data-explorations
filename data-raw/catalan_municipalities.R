@@ -3,14 +3,16 @@
 # Retrieved from https://www.idescat.cat/dev/api/emex/
 # License https://www.idescat.cat/dev/api/#cdu
 
+library(drake)
 library(httr)
 library(jsonlite)
 library(progress)
 library(tibble)
+library(tidyverse)
 
 
 CallEmexApi <- function(endpoint, params=NULL) {
-  path <- paste("emex/v1/", endpoint, sep="")
+  path <- paste0("emex/v1/", endpoint, ".json?lang=en")
   url <- modify_url("https://api.idescat.cat", path=path)
   http_response <- RETRY("GET", url)
   
@@ -32,85 +34,112 @@ CallEmexApi <- function(endpoint, params=NULL) {
   return(response)
 }
 
-ProcessElement <- function(element) {
-  df <- tibble(name = element$c, value = element$v)
-  return(df)
+RetrieveEmexIds <- function() {
+  response <- CallEmexApi("dades")
+  return(response)
 }
 
-ProcessF <- function(f_tree) {
-  if(is.null(f_tree$v))  {
-    df <- f_tree %>% map_dfr(~ ProcessElement(.))
+RetrieveEmexMunicipality <- function(id) {
+  response <- CallEmexApi(paste0("geo/", id))
+  return(response)
+}
+
+GetValueOrNa <- function(value) {
+  if(is.null(value)) {
+    return(NA)
   } else {
-    df <- ProcessElement(f_tree)
+    return(value)
   }
-  return(df)
 }
 
-ProcessSubgroup <- function(subgroup) {
-  df <- ProcessF(subgroup$ff$f)
-  df$subgroup <- subgroup$c
-  return(df)
-}
-
-ProcessT <- function(t_tree) {
-  if(is.null(t_tree$ff)) {
-    df <- t_tree %>% map_dfr(~ ProcessSubgroup(.))
-  } else {
-    df <- ProcessSubgroup(t_tree)
+ParseElement <- function(element) {
+  if(is.null(element[["c"]])) {
+    stop("c not present in element")  
   }
-  return(df)
-}
-
-ProcessGroup <- function(group) {
-  df <- ProcessT(group$tt$t)
-  df$group <- group$c
-  return(df)
-}
-
-ProcessG <- function(g_tree) {
-  if(is.null(g_tree$tt)) {
-    df <- g_tree %>% map_dfr(~ ProcessGroup(.))
-  } else {
-    df <- ProcessGroup(g_tree)
-  }
-  return(df)
-}
-
-
-ConvertMunicipalityToTibble <- function(response) {
-  df <- ProcessG(response$content$fitxes$gg$g)
   
-  mun_tree <- response$content$fitxes$cols$col %>% detect(~ .$scheme=="mun")
-  df$municipality <- mun_tree$content
+  if(is.null(element[["v"]])) {
+    stop("v not present in element")  
+  }
+
+    df <- tibble(
+    name = element[["c"]], 
+    value = as.numeric(gsub("^(.*?),.*", "\\1", element[["v"]])), 
+    unit = as.character(GetValueOrNa(element[["u"]])), 
+    updated = as.POSIXct(GetValueOrNa(element[["updated"]]))
+  )
   
-  com_tree <- response$content$fitxes$cols$col %>% detect(~ .$scheme=="com")
-  df$comarca <- com_tree$content
   return(df)
 }
 
-RetrieveMunicipality <- function(id, pb=NULL) {
-  response <- CallEmexApi(paste("geo/", id, ".json", sep=""))
-  df <- ConvertMunicipalityToTibble(response)
-  if(!is.null(pb)) {
-    pb$message(paste("Downloaded", df$municipality[1]))
-    pb$tick()
+ParseFTree <- function(f_tree) {
+  if(is.null(f_tree[["v"]]))  {
+    df <- f_tree %>% map_dfr(~ ParseElement(.), .default = NA)
+  } else {
+    df <- ParseElement(f_tree)
   }
   return(df)
 }
 
-RetrieveAllMunicipalities <- function(ids, pb=NULL) {
-  catalan_municipalities <- ids %>% map_dfr(~ RetrieveMunicipality(., pb))
-  if(!is.null(pb)) {
-    pb$terminate()
+ParseSubgroup <- function(subgroup) {
+  df <- ParseFTree(subgroup[["ff"]][["f"]])
+  df[["subgroup"]] <- subgroup[["c"]]
+  if(!is.null(subgroup[["updated"]])) {
+    df[["updated"]][is.na(df[["updated"]])] <- subgroup[["updated"]]
   }
+  if(!is.null(subgroup[["u"]])) {
+    df[["unit"]][is.na(df[["unit"]])] <- subgroup[["u"]]
+  }
+  return(df)
+}
+
+ParseTTree <- function(t_tree) {
+  if(is.null(t_tree[["ff"]])) {
+    df <- t_tree %>% map_dfr(~ ParseSubgroup(.), .default = NA)
+  } else {
+    df <- ParseSubgroup(t_tree)
+  }
+  return(df)
+}
+
+ParseGroup <- function(group) {
+  df <- ParseTTree(group[["tt"]][["t"]])
+  df[["group"]] <- group[["c"]]
+  return(df)
+}
+
+ParseGTree <- function(g_tree) {
+  if(is.null(g_tree[["tt"]])) {
+    df <- g_tree %>% map_dfr(~ ParseGroup(.), .default = NA)
+  } else {
+    df <- ParseGroup(g_tree)
+  }
+  return(df)
+}
+
+ParseMunicipalityResponse <- function(response) {
+  df <- ParseGTree(response[["content"]][["fitxes"]][["gg"]][["g"]])
+  
+  mun_tree <- response[["content"]][["fitxes"]][["cols"]][["col"]] %>% detect(~ .[["scheme"]]=="mun")
+  df[["municipality"]] <- mun_tree[["content"]]
+  
+  com_tree <- response[["content"]][["fitxes"]][["cols"]][["col"]] %>% detect(~ .[["scheme"]]=="com")
+  df[["comarca"]] <- com_tree[["content"]]
+  return(df)
+}
+
+RetrieveAllMunicipalities <- function(ids) {
+  catalan_municipalities <- ids %>% map_dfr(~ RetrieveMunicipality(.))
   return(catalan_municipalities)
 }
 
-response <- CallEmexApi("dades.json")
-ids <- response$content$fitxes$cols$col %>% map(~ .$id)
-pb <- progress_bar$new(total = length(ids))
+catalan_municipalities_plan <- drake_plan(
+  ids_response_from_server = RetrieveEmexIds(),
+  ids = ids_response_from_server[["content"]][["fitxes"]][["cols"]][["col"]] %>% keep(~.[["scheme"]] == "mun") %>% map(~ .[["id"]]),
+  ids_reduced = ids[1:10],
+  catalan_municipality_responses = target(RetrieveEmexMunicipality(ids_reduced), dynamic=map(ids_reduced)),
+  catalan_municipalities = target(ParseMunicipalityResponse(catalan_municipality_responses), dynamic=map(catalan_municipality_responses)),
+  catalan_municipalities_write_data = save(catalan_municipalities, file=file_out("data/catalan_municipalities.rda"))
+)
 
-catalan_municipalities <- RetrieveAllMunicipalities(ids, pb)
 
-usethis::use_data(catalan_municipalities, overwrite=TRUE)
 
