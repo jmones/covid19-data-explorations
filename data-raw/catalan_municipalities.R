@@ -135,8 +135,7 @@ RetrieveAllMunicipalities <- function(ids) {
 catalan_municipalities_plan <- drake_plan(
   ids_response_from_server = RetrieveEmexIds(),
   ids = ids_response_from_server[["content"]][["fitxes"]][["cols"]][["col"]] %>% keep(~.[["scheme"]] == "mun") %>% map(~ .[["id"]]),
-  ids_reduced = ids[1:10],
-  catalan_municipality_responses = target(RetrieveEmexMunicipality(ids_reduced), dynamic=map(ids_reduced)),
+  catalan_municipality_responses = target(RetrieveEmexMunicipality(ids), dynamic=map(ids)),
   catalan_municipalities = target(ParseMunicipalityResponse(catalan_municipality_responses), dynamic=map(catalan_municipality_responses)),
   catalan_municipalities_write_data = save(catalan_municipalities, file=file_out("data/catalan_municipalities.rda"))
 )
