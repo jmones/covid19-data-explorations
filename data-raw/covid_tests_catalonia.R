@@ -14,5 +14,5 @@ covid_tests_catalonia_plan <- drake_plan(
   download.file("https://analisi.transparenciacatalunya.cat/api/views/jj6z-iyrp/rows.csv?accessType=DOWNLOAD&sorting=true", file_out("data-raw/covid_tests_catalonia.csv")),
   covid_tests_catalonia_raw = read.csv(file_in("data-raw/covid_tests_catalonia.csv")),
   covid_tests_catalonia = covid_tests_catalonia_raw %>% uncount(NumCasos),
-  covid_tests_catalonia_write_to_data = save(covid_tests_catalonia, file=file_out("data/covid_tests_catalonia.rda"))
+  covid_tests_catalonia_save_data = save(covid_tests_catalonia, file=file_out("data/covid_tests_catalonia.rda"))
 )
