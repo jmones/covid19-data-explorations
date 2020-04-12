@@ -45,11 +45,12 @@ https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3567841
 ## Analysis
 
 ```{r munge}
-library(tidyverse)
-library(stargazer)
+library(drake)
 library(ggeffects)
+library(stargazer)
+library(tidyverse)
 
-load("../data/covid_tests_catalonia.rda")
+load(paste0("../", file_in("data/covid_tests_catalonia.rda")))
 
 covid_tests_catalonia <- covid_tests_catalonia %>% 
   mutate(MunicipiDescripcio = as_factor(MunicipiDescripcio)) %>% 
