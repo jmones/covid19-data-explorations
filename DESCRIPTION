@@ -1,7 +1,7 @@
 Package: covid19dataexplorations
 Title: COVID-19 data explorations
 Version: 0.0.1
-Authors@R: person('Josep', 'Monés', email = 'jmones@gmail.com', role = c('cre', 'aut'))
+Authors@R: c(person('Joan-Josep', 'Vallbé', email = 'pepvallbe@gmail.com', role = c('aut')), person('Josep', 'Monés', email = 'jmones@gmail.com', role = c('cre', 'aut')))
 Description: Some random explorations
 License: MIT + file LICENSE
 Imports: 
