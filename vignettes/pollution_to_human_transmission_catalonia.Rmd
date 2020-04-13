@@ -53,14 +53,17 @@ library(tidyverse)
 load(paste0("../", file_in("data/covid_tests_catalonia.rda")))
 
 covid_tests_catalonia <- covid_tests_catalonia %>% 
-  mutate(MunicipiDescripcio = as_factor(MunicipiDescripcio)) %>% 
-  mutate(MunicipiDescripcio = relevel(MunicipiDescripcio, ref="Barcelona"))
+  filter(!is.na(MunicipiCodi)) %>% 
+  mutate(MunicipiDescripcio = as_factor(MunicipiDescripcio),
+         ComarcaDescripcio = as_factor(ComarcaDescripcio)) %>% 
+  mutate(MunicipiDescripcio = relevel(MunicipiDescripcio, ref="Barcelona"),
+         ComarcaDescripcio = relevel(ComarcaDescripcio, ref="Barcelonès"))
 ```
 
 
 ```{r mod1, results='asis'}
 mod1 <- lm(ResultatCovidCodi~SexeDescripcio, data=covid_tests_catalonia)
-mod2 <- update(mod1,.~. + MunicipiDescripcio)
+mod2 <- update(mod1,.~. + ComarcaDescripcio)
 
 stargazer(mod1,mod2,
           type="html",
@@ -78,14 +81,14 @@ ggplot(p, aes(x,predicted)) +
                 width=0.05) +
   theme_minimal() +
   labs(x="",
-       y="Probabilitat de positiu de COVID19") +
-  ylim(0.41,0.49)
+       y="Probabilitat de positiu de COVID19") #+
+#  ylim(0.41,0.49)
 ```
 
 
 
-```{r regio, fig.width=6}
-p <- ggpredict(mod2,terms = "MunicipiDescripcio") %>% as_tibble()
+```{r comarca, fig.width=9, fig.height=12}
+p <- ggpredict(mod2,terms = "ComarcaDescripcio") %>% as_tibble()
 
 ggplot(p, aes(predicted,reorder(x,desc(predicted)))) +
   geom_point() +
@@ -94,7 +97,7 @@ ggplot(p, aes(predicted,reorder(x,desc(predicted)))) +
   theme_minimal() +
   labs(y="",
        x="Probabilitat de positiu de COVID19") +
-  theme(axis.text.y = element_text(hjust=0))
+  theme(axis.text.y = element_text(hjust=0,size=8))
 
 ```
 
