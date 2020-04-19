@@ -10,3 +10,6 @@ This repository contains random explorations on COVID-19 data. Nothing useful fo
 
 [Raw data](data-raw/README.md)
 
+## Code of Conduct
+
+Please note that the covid19dataexplorations project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
