@@ -4,7 +4,8 @@
 ^\.Rprofile$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.drake$
+^\.drake_history$
+^\.github$
 ^data-raw$
 ^LICENSE\.md$
-^\.github$
-
