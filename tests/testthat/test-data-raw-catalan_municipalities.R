@@ -1,4 +1,5 @@
-# source manually as data-raw files are not loaded from package
+
+# source manually as data-raw files don't seem to be loaded
 source("../../data-raw/catalan_municipalities.R")
 
 test_that("element with all fields is parsed", {

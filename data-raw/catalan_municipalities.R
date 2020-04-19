@@ -6,11 +6,9 @@
 library(drake)
 library(httr)
 library(jsonlite)
+library(progress)
 library(tibble)
 library(tidyverse)
-library(relatable)
-
-source("R/catalan_article_positions.R")
 
 
 CallEmexApi <- function(endpoint, params=NULL) {
@@ -134,51 +132,13 @@ RetrieveAllMunicipalities <- function(ids) {
   return(catalan_municipalities)
 }
 
-BuildMunicipalityNamesDataset <- function(catalan_municipalities_raw) {
-  
-  # Canonical name will be capitalised start
-  alias_comma_end <- unique(simplify(catalan_municipalities_raw %>% select(municipality)))
-  names <- CommaEndToCapitalisedStart(alias_comma_end)
-  alias <- alias_comma_end
-  relation(alias, names, relation_type="bijection")
-  
-  # All alias should have exactly 1 name, and viceversa
-  alias_capitalised_start <- names
-  relation(alias_capitalised_start, names, relation_type="bijection")
-  alias <- c(alias, alias_capitalised_start)
-  
-  # All alias should have exactly 1 name, and viceversa
-  alias_lowercase_start <- CommaEndToLowercaseStart(alias_comma_end)
-  relation(alias_lowercase_start, names, relation_type="bijection")
-  alias <- c(alias, alias_lowercase_start)
-  
-  names <- c(names, names, names)
-  municipality_names <- unique(tibble(alias=alias, names=names))
-
-  # all elements in names should have an alias
-  relation(municipality_names$alias, municipality_names$names, relation_type="surjection")
-  
-  return(municipality_names)
-}
-
-PrepareCatalanMunicipalities <- function(catalan_municipalities_raw, catalan_municipalities_names) {
-  catalan_municipalities_raw$municipality <- catalan_municipalities_raw$municipality %>%
-    map(~ simplify(catalan_municipalities_names$names[catalan_municipalities_names$alias == .]))
-    
-  return(catalan_municipalities_raw)
-} 
-
 catalan_municipalities_plan <- drake_plan(
   ids_response_from_server = RetrieveEmexIds(),
   ids = ids_response_from_server[["content"]][["fitxes"]][["cols"]][["col"]] %>% keep(~.[["scheme"]] == "mun") %>% map(~ .[["id"]]),
   catalan_municipality_responses = target(RetrieveEmexMunicipality(ids), dynamic=map(ids)),
-  catalan_municipalities_raw = target(ParseMunicipalityResponse(catalan_municipality_responses), dynamic=map(catalan_municipality_responses)),
-  catalan_municipality_names = BuildMunicipalityNamesDataset(catalan_municipalities_raw),
-  catalan_municipalities_names_save_data = save(catalan_municipality_names, file=file_out("data/catalan_municipality_names.rda")),
-  catalan_municipalities = PrepareCatalanMunicipalities(catalan_municipalities_raw, catalan_municipality_names),
+  catalan_municipalities = target(ParseMunicipalityResponse(catalan_municipality_responses), dynamic=map(catalan_municipality_responses)),
   catalan_municipalities_save_data = save(catalan_municipalities, file=file_out("data/catalan_municipalities.rda"))
 )
 
-make(catalan_municipalities_plan)
 
 
