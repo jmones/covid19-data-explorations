@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="date" content="2018-01-30" />
+
+<title>Relation Types and Restrictions</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Relation Types and Restrictions</h1>
+<h4 class="date"><em>2018-01-30</em></h4>
+
+
+
+<p>This vignette explains how the <code>relation_type</code> and <code>restrictions</code> arguments work to ensure predictable mappings and check for correct relations between variables in your data. Examples also demonstrate how and when to use the arguments <code>atomic</code>, <code>heterogenous_outputs</code>, <code>handle_duplicate_mappings</code>, <code>report_properties</code>, and <code>map_error_response</code>.</p>
+<section id="restrictions" class="level2">
+<h2>Restrictions</h2>
+<p>It is sometimes important to ensure mappings have certain properties. For example, in a database, you will likely find it necessary that every possible user ID maps to no more than one username. <code>relatable</code> functions can be used to enforce this restriction with either <code>relation_type</code> (explained below), or a list of <code>restrictions</code>, which are used if <code>relation_type = NULL</code>. The following restrictions can be applied:</p>
+<ul>
+<li><code>min_one_y_per_x</code> : Guarantees at least one <em>y = F(x)</em> in <code>B</code> exists for each <em>x</em> in <code>A</code>.</li>
+<li><code>min_one_x_per_y</code> : Guarantees at least one <em>x</em> in <code>A</code> exists for each <em>y</em> in <code>B</code>.</li>
+<li><code>max_one_y_per_x</code> : Guarantees no more than one <em>y = F(x)</em> in <code>B</code> exists for each <em>x</em> in <code>A</code>.</li>
+<li><code>max_one_x_per_y</code> : Guarantees no more than one <em>x</em> in <code>A</code> exists for each <em>y</em> in <code>B</code>.</li>
+</ul>
+<p>Thus for our ID to username mapping, we might want to create a function like this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(relatable)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">valid_ids &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">:</span><span class="dv">99</span> <span class="co"># All possible ID numbers</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">usernames &lt;-<span class="st"> </span><span class="co"># List of usernames in order of entry</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;Leonardo&quot;</span>, <span class="st">&quot;Michelangelo&quot;</span>, <span class="st">&quot;Raphael&quot;</span>, <span class="st">&quot;Donatello&quot;</span>) </a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">get_user_from_id &lt;-<span class="st"> </span><span class="kw">relation</span>(</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="dt">A =</span> valid_ids,</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">  <span class="dt">B =</span> usernames,</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">  <span class="dt">default =</span> <span class="st">&quot;No username found&quot;</span>,</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">  <span class="dt">relation_type =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">  <span class="dt">restrictions =</span> <span class="kw">list</span>(<span class="dt">max_one_y_per_x =</span> <span class="ot">TRUE</span>, <span class="dt">max_one_x_per_y =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">  <span class="dt">map_error_response =</span> <span class="st">&quot;throw&quot;</span>  <span class="co"># If restrictions are violated, return an error instead</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">)                               <span class="co"># of a warning</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="kw">get_user_from_id</span>(<span class="dv">11</span>)</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; [1] &quot;Michelangelo&quot;</span></a></code></pre></div>
+<p>Now, if the function is later updated to include a username that is already taken, an error will be thrown.</p>
+</section>
+<section id="relation-types" class="level2">
+<h2>Relation types</h2>
+<p>Relation types translate to predetermined sets of restrictions, and are applied with a short string rather than a list. The following relation types are possible:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">min_one_y_per_x</th>
+<th style="text-align: left;">min_one_x_per_y</th>
+<th style="text-align: left;">max_one_y_per_x</th>
+<th style="text-align: left;">max_one_x_per_y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">one_to_one</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">many_to_many</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">FALSE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">one_to_many</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">many_to_one</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">func</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">injection</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">surjection</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bijection</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="examples" class="level2">
+<h2>Examples</h2>
+<section id="enforce-properties-of-relations-between-vectors" class="level3">
+<h3>Enforce properties of relations between vectors</h3>
+<p>By default, the <code>relation_type</code> is assumed to be a funtcion (“func”), meaning that each input maps to one and only one output. These restrictions can be tightened or loosened depending on your needs. Many-to-many relations have loose restrictions allowing multiple outputs from a single input:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">## Authors have a many-to-many relation with books:</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">## a book can have multiple authors and authors can write multiple books</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">my_library &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="op">~</span>author,              <span class="op">~</span>work,</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="st">&quot;Arendt&quot;</span>,             <span class="st">&quot;The Human Condition&quot;</span>,</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">  <span class="st">&quot;Austen-Smith&quot;</span>,       <span class="st">&quot;Social Choice and Voting Models&quot;</span>,</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">  <span class="st">&quot;Austen-Smith&quot;</span>,       <span class="st">&quot;Positive Political Theory&quot;</span>,</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">  <span class="st">&quot;Banks&quot;</span>,              <span class="st">&quot;Positive Political Theory&quot;</span>,</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">  <span class="st">&quot;Camus&quot;</span>,              <span class="st">&quot;The Myth of Sisyphus&quot;</span>,</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="st">&quot;Camus&quot;</span>,              <span class="st">&quot;The Rebel&quot;</span>,</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  <span class="st">&quot;Arendt&quot;</span>,             <span class="st">&quot;The Origins of Totalitarianism&quot;</span>,</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">  <span class="st">&quot;Dryzek&quot;</span>,             <span class="st">&quot;Theories of the Democratic State&quot;</span>,</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">  <span class="st">&quot;Dunleavy&quot;</span>,           <span class="st">&quot;Theories of the Democratic State&quot;</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">)</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="kw">relate</span>(</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">  <span class="dt">X =</span> <span class="kw">c</span>(<span class="st">&quot;Arendt&quot;</span>, <span class="st">&quot;Austen-Smith&quot;</span>, <span class="st">&quot;Banks&quot;</span>, <span class="st">&quot;Dryzek&quot;</span>, <span class="st">&quot;Dunleavy&quot;</span>),</a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">  <span class="dt">A =</span> my_library<span class="op">$</span>author,</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">  <span class="dt">B =</span> my_library<span class="op">$</span>work,</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">  <span class="dt">atomic =</span> <span class="ot">FALSE</span>, <span class="co"># relations with multiple outputs must return lists</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">  <span class="dt">named =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">  <span class="dt">relation_type =</span> <span class="st">&quot;many_to_many&quot;</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">)</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; $Arendt</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; [1] &quot;The Human Condition&quot;            &quot;The Origins of Totalitarianism&quot;</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; $`Austen-Smith`</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; [1] &quot;Social Choice and Voting Models&quot; &quot;Positive Political Theory&quot;      </span></a>
+<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt; $Banks</span></a>
+<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt; [1] &quot;Positive Political Theory&quot;</span></a>
+<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; $Dryzek</span></a>
+<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt; [1] &quot;Theories of the Democratic State&quot;</span></a>
+<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">#&gt; $Dunleavy</span></a>
+<a class="sourceLine" id="cb2-37" data-line-number="37"><span class="co">#&gt; [1] &quot;Theories of the Democratic State&quot;</span></a></code></pre></div>
+<p>You may want exactly one unique output for each input (a bijection), but have duplicate mappings in your input vectors:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">## Duplicate mappings usually return twice, but this can be changed...</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">relate</span>(</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="dt">X =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="dt">A =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">  <span class="dt">B =</span> <span class="kw">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'b'</span>, <span class="st">'c'</span>, <span class="st">'d'</span>, <span class="st">'e'</span>),</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">  <span class="dt">relation_type =</span> <span class="st">&quot;many_to_many&quot;</span>,</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">  <span class="dt">atomic =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; [1] &quot;a&quot;</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; [1] &quot;b&quot; &quot;b&quot;</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; [1] &quot;c&quot;</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">## Use relate or relation with handle_duplicate_mappings = TRUE to avoid errors resulting</a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">## from duplicate mappings to and from the same inputs. Bijections ensure that each input</a>
+<a class="sourceLine" id="cb3-20" data-line-number="20">## has exactly one unique output.</a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="kw">relate</span>(</a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">  <span class="dt">X =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb3-23" data-line-number="23">  <span class="dt">A =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb3-24" data-line-number="24">  <span class="dt">B =</span> <span class="kw">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'b'</span>, <span class="st">'c'</span>, <span class="st">'d'</span>, <span class="st">'e'</span>),</a>
+<a class="sourceLine" id="cb3-25" data-line-number="25">  <span class="dt">relation_type =</span> <span class="st">&quot;bijection&quot;</span>,</a>
+<a class="sourceLine" id="cb3-26" data-line-number="26">  <span class="dt">handle_duplicate_mappings =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27">)</a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;</span></a></code></pre></div>
+</section>
+<section id="determine-relation-properties-for-safer-mappings" class="level3">
+<h3>Determine relation properties for safer mappings</h3>
+<p>To illustrate some of the more advanced ways <code>relatable</code> can help ensure safer data manipulation, we will use the <a href="https://github.com/zonination/emperors/blob/master/LICENSE.md">emperors</a> data set of Ancient Roman Emperors assembled by github user <a href="https://github.com/zonination">Zoni Nation</a>.</p>
+<p><code>report_properties</code> can give you useful information about the relation between two vectors:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">emperors &lt;-<span class="st"> </span><span class="kw">read.csv</span>(</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="st">&quot;https://raw.githubusercontent.com/zonination/emperors/master/emperors.csv&quot;</span>,</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw">colnames</span>(emperors)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;  [1] &quot;index&quot;       &quot;name&quot;        &quot;name.full&quot;   &quot;birth&quot;       &quot;death&quot;      </span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;  [6] &quot;birth.cty&quot;   &quot;birth.prv&quot;   &quot;rise&quot;        &quot;reign.start&quot; &quot;reign.end&quot;  </span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; [11] &quot;cause&quot;       &quot;killer&quot;      &quot;dynasty&quot;     &quot;era&quot;         &quot;notes&quot;      </span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; [16] &quot;verif.who&quot;</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">## Suppose we want a function to map each emperor to the time of their reign.</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">## First, let's see that a unique mapping from either name or name.full is possible by</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">## using relation's report properties argument:</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="kw">relation</span>(emperors<span class="op">$</span>name.full, emperors<span class="op">$</span>reign.start,</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">  <span class="dt">relation_type =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16">  <span class="dt">atomic =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">  <span class="dt">report_properties =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; Relation properties:</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; min_one_y_per_x: TRUE</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; min_one_x_per_y: TRUE</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; max_one_y_per_x: FALSE</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; max_one_x_per_y: FALSE</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="kw">relation</span>(emperors<span class="op">$</span>name, emperors<span class="op">$</span>reign.start,</a>
+<a class="sourceLine" id="cb4-25" data-line-number="25">  <span class="dt">relation_type =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb4-26" data-line-number="26">  <span class="dt">atomic =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb4-27" data-line-number="27">  <span class="dt">report_properties =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt; Relation properties:</span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; min_one_y_per_x: TRUE</span></a>
+<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt; min_one_x_per_y: TRUE</span></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">#&gt; max_one_y_per_x: TRUE</span></a>
+<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="co">#&gt; max_one_x_per_y: FALSE</span></a>
+<a class="sourceLine" id="cb4-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb4-34" data-line-number="34">## Neither mapping fulfils the criterion of max_one_y_per_x, but this is not a problem: in</a>
+<a class="sourceLine" id="cb4-35" data-line-number="35">## the later years of the Roman Empire, some emperors were co-rulers whose reigns began at</a>
+<a class="sourceLine" id="cb4-36" data-line-number="36">## the same time.</a>
+<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="kw">relate</span>(<span class="kw">c</span>(<span class="st">&quot;0305-05-01&quot;</span>, <span class="st">&quot;0337-05-22&quot;</span>), emperors<span class="op">$</span>reign.start, emperors<span class="op">$</span>name,</a>
+<a class="sourceLine" id="cb4-38" data-line-number="38">  <span class="dt">named =</span> <span class="ot">TRUE</span>, <span class="dt">relation_type =</span> <span class="ot">NULL</span>, <span class="dt">atomic =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-39" data-line-number="39"><span class="co">#&gt; $`0305-05-01`</span></a>
+<a class="sourceLine" id="cb4-40" data-line-number="40"><span class="co">#&gt; [1] &quot;Constantius I&quot; &quot;Galerius&quot;      &quot;Severus II&quot;   </span></a>
+<a class="sourceLine" id="cb4-41" data-line-number="41"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-42" data-line-number="42"><span class="co">#&gt; $`0337-05-22`</span></a>
+<a class="sourceLine" id="cb4-43" data-line-number="43"><span class="co">#&gt; [1] &quot;Constantine II&quot; &quot;Consantius II&quot;  &quot;Constans&quot;</span></a>
+<a class="sourceLine" id="cb4-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb4-45" data-line-number="45">## However, we can infer from max_one_y_per_x = FALSE that some elements of name.full are</a>
+<a class="sourceLine" id="cb4-46" data-line-number="46">## non-unique. This is because both Vespasian and his eldest son and successor Titus took</a>
+<a class="sourceLine" id="cb4-47" data-line-number="47">## the same imperial title.</a>
+<a class="sourceLine" id="cb4-48" data-line-number="48"><span class="kw">relate</span>(<span class="kw">c</span>(<span class="st">&quot;Vespasian&quot;</span>, <span class="st">&quot;Titus&quot;</span>), emperors<span class="op">$</span>name, emperors<span class="op">$</span>name.full,</a>
+<a class="sourceLine" id="cb4-49" data-line-number="49">  <span class="dt">named =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb4-50" data-line-number="50"><span class="co">#&gt;                                   Vespasian </span></a>
+<a class="sourceLine" id="cb4-51" data-line-number="51"><span class="co">#&gt; &quot;TITVS FLAVIVS CAESAR VESPASIANVS AVGVSTVS&quot; </span></a>
+<a class="sourceLine" id="cb4-52" data-line-number="52"><span class="co">#&gt;                                       Titus </span></a>
+<a class="sourceLine" id="cb4-53" data-line-number="53"><span class="co">#&gt; &quot;TITVS FLAVIVS CAESAR VESPASIANVS AVGVSTVS&quot;</span></a>
+<a class="sourceLine" id="cb4-54" data-line-number="54"></a>
+<a class="sourceLine" id="cb4-55" data-line-number="55">## Hence we can determine that name and not name.full is a better choice for our mapping</a>
+<a class="sourceLine" id="cb4-56" data-line-number="56">## function.</a>
+<a class="sourceLine" id="cb4-57" data-line-number="57">reign_start &lt;-<span class="st"> </span><span class="kw">relation</span>(emperors<span class="op">$</span>name, emperors<span class="op">$</span>reign.start)</a>
+<a class="sourceLine" id="cb4-58" data-line-number="58"><span class="kw">reign_start</span>(<span class="st">&quot;Constantine the Great&quot;</span>)</a>
+<a class="sourceLine" id="cb4-59" data-line-number="59"><span class="co">#&gt; [1] &quot;0306-07-25&quot;</span></a>
+<a class="sourceLine" id="cb4-60" data-line-number="60"></a>
+<a class="sourceLine" id="cb4-61" data-line-number="61">## Repeating the vector A can let us return multiple variables at once to return an n-tuple</a>
+<a class="sourceLine" id="cb4-62" data-line-number="62">nice_date &lt;-<span class="st"> </span><span class="cf">function</span>(s) {</a>
+<a class="sourceLine" id="cb4-63" data-line-number="63">  d &lt;-<span class="st"> </span><span class="kw">as.Date</span>(s, <span class="st">&quot;%Y-%m-%d&quot;</span>)</a>
+<a class="sourceLine" id="cb4-64" data-line-number="64">  <span class="kw">return</span>(<span class="kw">format.Date</span>(d, <span class="st">&quot;%d %B, %Y AD&quot;</span>))</a>
+<a class="sourceLine" id="cb4-65" data-line-number="65">}</a>
+<a class="sourceLine" id="cb4-66" data-line-number="66"></a>
+<a class="sourceLine" id="cb4-67" data-line-number="67">reign_duration &lt;-<span class="st"> </span><span class="kw">relation</span>(</a>
+<a class="sourceLine" id="cb4-68" data-line-number="68">  <span class="kw">rep</span>(emperors<span class="op">$</span>name, <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb4-69" data-line-number="69">  <span class="kw">nice_date</span>(<span class="kw">c</span>(emperors<span class="op">$</span>reign.start, emperors<span class="op">$</span>reign.end)),</a>
+<a class="sourceLine" id="cb4-70" data-line-number="70">  <span class="dt">relation_type =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb4-71" data-line-number="71">  <span class="dt">atomic =</span> <span class="ot">FALSE</span>, <span class="dt">named =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb4-72" data-line-number="72">)</a>
+<a class="sourceLine" id="cb4-73" data-line-number="73"><span class="kw">reign_duration</span>(<span class="kw">c</span>(<span class="st">&quot;Vespasian&quot;</span>, <span class="st">&quot;Titus&quot;</span>, <span class="st">&quot;Domitian&quot;</span>))</a>
+<a class="sourceLine" id="cb4-74" data-line-number="74"><span class="co">#&gt; $Vespasian</span></a>
+<a class="sourceLine" id="cb4-75" data-line-number="75"><span class="co">#&gt; [1] &quot;21 December, 69 AD&quot; &quot;24 June, 79 AD&quot;    </span></a>
+<a class="sourceLine" id="cb4-76" data-line-number="76"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-77" data-line-number="77"><span class="co">#&gt; $Titus</span></a>
+<a class="sourceLine" id="cb4-78" data-line-number="78"><span class="co">#&gt; [1] &quot;24 June, 79 AD&quot;      &quot;13 September, 81 AD&quot;</span></a>
+<a class="sourceLine" id="cb4-79" data-line-number="79"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-80" data-line-number="80"><span class="co">#&gt; $Domitian</span></a>
+<a class="sourceLine" id="cb4-81" data-line-number="81"><span class="co">#&gt; [1] &quot;14 September, 81 AD&quot; &quot;18 September, 96 AD&quot;</span></a>
+<a class="sourceLine" id="cb4-82" data-line-number="82"></a>
+<a class="sourceLine" id="cb4-83" data-line-number="83">## Or just for fun...</a>
+<a class="sourceLine" id="cb4-84" data-line-number="84">obituary &lt;-<span class="st"> </span><span class="kw">with</span>(</a>
+<a class="sourceLine" id="cb4-85" data-line-number="85">  emperors,</a>
+<a class="sourceLine" id="cb4-86" data-line-number="86">  <span class="kw">relation</span>(</a>
+<a class="sourceLine" id="cb4-87" data-line-number="87">    <span class="dt">A =</span> <span class="kw">rep</span>(name, <span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb4-88" data-line-number="88">    <span class="dt">B =</span> <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb4-89" data-line-number="89">      <span class="kw">paste0</span>(<span class="st">&quot;Born in &quot;</span>, birth.cty, <span class="st">&quot;, &quot;</span>, birth.prv, <span class="st">&quot; on &quot;</span>, <span class="kw">nice_date</span>(birth)),</a>
+<a class="sourceLine" id="cb4-90" data-line-number="90">      <span class="kw">paste0</span>(<span class="st">&quot;Came to power by &quot;</span>, rise, <span class="st">&quot; on &quot;</span>, <span class="kw">nice_date</span>(reign.start)),</a>
+<a class="sourceLine" id="cb4-91" data-line-number="91">      <span class="kw">paste0</span>(<span class="st">&quot;Died from &quot;</span>, cause, <span class="st">&quot; by &quot;</span>, killer, <span class="st">&quot; on &quot;</span>, <span class="kw">nice_date</span>(death))</a>
+<a class="sourceLine" id="cb4-92" data-line-number="92">    ),</a>
+<a class="sourceLine" id="cb4-93" data-line-number="93">    <span class="dt">relation_type =</span> <span class="ot">NULL</span>,</a>
+<a class="sourceLine" id="cb4-94" data-line-number="94">    <span class="dt">atomic =</span> <span class="ot">FALSE</span>, <span class="dt">named =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb4-95" data-line-number="95">  )</a>
+<a class="sourceLine" id="cb4-96" data-line-number="96">)</a>
+<a class="sourceLine" id="cb4-97" data-line-number="97"></a>
+<a class="sourceLine" id="cb4-98" data-line-number="98"><span class="kw">obituary</span>(</a>
+<a class="sourceLine" id="cb4-99" data-line-number="99">  <span class="kw">c</span>(<span class="st">&quot;Marcus Aurelius&quot;</span>, <span class="st">&quot;Commodus&quot;</span>, <span class="st">&quot;Pertinax&quot;</span>, <span class="st">&quot;Didius Julianus&quot;</span>, <span class="st">&quot;Septimus Severus&quot;</span>, <span class="st">&quot;Caracalla&quot;</span>)</a>
+<a class="sourceLine" id="cb4-100" data-line-number="100">)</a>
+<a class="sourceLine" id="cb4-101" data-line-number="101"><span class="co">#&gt; $`Marcus Aurelius`</span></a>
+<a class="sourceLine" id="cb4-102" data-line-number="102"><span class="co">#&gt; [1] &quot;Born in Rome, Italia on 26 April, 121 AD&quot;               </span></a>
+<a class="sourceLine" id="cb4-103" data-line-number="103"><span class="co">#&gt; [2] &quot;Came to power by Birthright on 07 March, 161 AD&quot;        </span></a>
+<a class="sourceLine" id="cb4-104" data-line-number="104"><span class="co">#&gt; [3] &quot;Died from Natural Causes by Disease on 17 March, 180 AD&quot;</span></a>
+<a class="sourceLine" id="cb4-105" data-line-number="105"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-106" data-line-number="106"><span class="co">#&gt; $Commodus</span></a>
+<a class="sourceLine" id="cb4-107" data-line-number="107"><span class="co">#&gt; [1] &quot;Born in Lanuvium, Italia on 31 August, 161 AD&quot;                     </span></a>
+<a class="sourceLine" id="cb4-108" data-line-number="108"><span class="co">#&gt; [2] &quot;Came to power by Birthright on 01 January, 177 AD&quot;                 </span></a>
+<a class="sourceLine" id="cb4-109" data-line-number="109"><span class="co">#&gt; [3] &quot;Died from Assassination by Praetorian Guard on 31 December, 192 AD&quot;</span></a>
+<a class="sourceLine" id="cb4-110" data-line-number="110"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-111" data-line-number="111"><span class="co">#&gt; $Pertinax</span></a>
+<a class="sourceLine" id="cb4-112" data-line-number="112"><span class="co">#&gt; [1] &quot;Born in Alba, Italia on 01 August, 126 AD&quot;                             </span></a>
+<a class="sourceLine" id="cb4-113" data-line-number="113"><span class="co">#&gt; [2] &quot;Came to power by Appointment by Praetorian Guard on 01 January, 193 AD&quot;</span></a>
+<a class="sourceLine" id="cb4-114" data-line-number="114"><span class="co">#&gt; [3] &quot;Died from Assassination by Praetorian Guard on 28 March, 193 AD&quot;       </span></a>
+<a class="sourceLine" id="cb4-115" data-line-number="115"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-116" data-line-number="116"><span class="co">#&gt; $`Didius Julianus`</span></a>
+<a class="sourceLine" id="cb4-117" data-line-number="117"><span class="co">#&gt; [1] &quot;Born in Milan, Italia on 30 January, 133 AD&quot;     </span></a>
+<a class="sourceLine" id="cb4-118" data-line-number="118"><span class="co">#&gt; [2] &quot;Came to power by Purchase on 28 March, 193 AD&quot;   </span></a>
+<a class="sourceLine" id="cb4-119" data-line-number="119"><span class="co">#&gt; [3] &quot;Died from Execution by Senate on 01 July, 193 AD&quot;</span></a>
+<a class="sourceLine" id="cb4-120" data-line-number="120"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-121" data-line-number="121"><span class="co">#&gt; $`Septimus Severus`</span></a>
+<a class="sourceLine" id="cb4-122" data-line-number="122"><span class="co">#&gt; [1] &quot;Born in Leptis Magna, Libya on 11 April, 145 AD&quot;           </span></a>
+<a class="sourceLine" id="cb4-123" data-line-number="123"><span class="co">#&gt; [2] &quot;Came to power by Seized Power on 09 April, 193 AD&quot;         </span></a>
+<a class="sourceLine" id="cb4-124" data-line-number="124"><span class="co">#&gt; [3] &quot;Died from Natural Causes by Disease on 04 February, 211 AD&quot;</span></a>
+<a class="sourceLine" id="cb4-125" data-line-number="125"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-126" data-line-number="126"><span class="co">#&gt; $Caracalla</span></a>
+<a class="sourceLine" id="cb4-127" data-line-number="127"><span class="co">#&gt; [1] &quot;Born in Lugdunum, Gallia Lugdunensis on 04 April, 188 AD&quot;    </span></a>
+<a class="sourceLine" id="cb4-128" data-line-number="128"><span class="co">#&gt; [2] &quot;Came to power by Birthright on 01 January, 198 AD&quot;           </span></a>
+<a class="sourceLine" id="cb4-129" data-line-number="129"><span class="co">#&gt; [3] &quot;Died from Assassination by Other Emperor on 08 April, 217 AD&quot;</span></a></code></pre></div>
+</section>
+</section>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

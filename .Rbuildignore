@@ -1,5 +1,10 @@
+^renv$
+^renv\.lock$
 ^packrat/
 ^\.Rprofile$
-^data-raw$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^data-raw$
+^LICENSE\.md$
+^\.github$
+

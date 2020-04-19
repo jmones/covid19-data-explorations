@@ -1,0 +1,4 @@
+R6_txtq                 R6 class for 'txtq' objects
+txtq                    Create a message queue.
+txtq-package            The txtq package is a small message queue for
+                        R.

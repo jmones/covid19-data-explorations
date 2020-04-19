@@ -1,0 +1,10 @@
+                        goodpractice: Advice on R Package Building
+all_checks              List the names of all checks
+checks                  List all checks performed
+export_json             Export failed checks to JSON
+failed_checks           Names of the failed checks
+failed_positions        Positions of check failures in the source code
+gp                      Run good practice checks
+make_check              Create a check function
+make_prep               Create a preparation function
+results                 Return all check results in a data frame
